@@ -1,0 +1,356 @@
+openapi: 3.0.0
+servers:
+  # Added by API Auto Mocking Plugin
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/ilfanalwirudin/challenge-binar-8/1.0.0
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/ilfanalwirudin/binar-challenge-chapter-8/1.0.0
+info:
+  description: This is a simple API
+  version: "1.0.0"
+  title: binar-challenge-chapter-8
+  contact:
+    email: you@your-company.com
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+tags:
+  - name: players
+    description: Secured players calls
+
+paths:
+  /api/players:
+    get:
+      tags:
+        - players
+      summary: get all players info
+      operationId: findAll
+      description: |
+        By passing in the appropriate options, you can search for all players data in the system
+      parameters:
+        - in: query
+          name: username
+          description: pass username info of the players
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: email
+          description: pass email info of the players
+          schema:
+            type: string
+        - in: query
+          name: password
+          description: pass username info of the players
+          schema:
+            type: string
+        - in: query
+          name: experience
+          description: pass experience info of the players
+          schema:
+            type: integer
+        - in: query
+          name: lvl
+          description: pass lvl info of the players
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/PlayerFindAll'
+        '400':
+          description: bad input parameter
+    post:
+      tags:
+        - players
+      summary: create a new player info
+      operationId: create
+      description: Adds a new player information to the system
+      responses:
+        '201':
+          description: item created
+        '400':
+          description: 'invalid input, object invalid'
+        '500':
+          description: internal server error
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Create'
+        description: Player info to add
+  
+  /api/players/{playerId}:
+    get:
+      tags:
+        - players_id
+      summary: find player info by ID
+      description: By passing in the appropriate options, you can search for a player info by the ID
+      parameters:
+        - name: playerId
+          in: path
+          description: get player info by id
+          required: true
+          schema:
+            type: integer
+        - name: username 
+          in: query
+          description: get player username
+          required: false
+          schema: 
+            type: string
+        - name: email
+          in: query
+          description: get player email
+          required: false
+          schema: 
+            type: string 
+        - name: password
+          in: query
+          description: get player password
+          required: false
+          schema: 
+            type: string
+        - name: experience
+          in: query
+          description: player experience
+          schema: 
+            type: integer
+        - name: lvl
+          in: query
+          description: player level
+          schema: 
+            type: integer
+            
+      responses:
+        '200':
+          description: search result mathcing criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlayerFindById'  
+        '500':
+          description: internal server error
+    put: 
+      tags:
+        - players_id
+      summary: update player info by ID
+      description: By passing in the appropriate options, you can update player information to the system
+      parameters:
+        - name: playerId
+          in: path
+          description: get player info by id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: search result mathcing criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlayerFindById'  
+        '500':
+          description: internal server error
+    delete: 
+      tags:
+        - players_id
+      summary: find player info by ID
+      description: By passing in the appropriate options, you can search for a player info by the ID
+      parameters:
+        - name: playerId
+          in: path
+          description: get player info by id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: search result mathcing criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlayerFindById'  
+        '500':
+          description: internal server error
+  /api/players/exp/{playerId}:
+    post: 
+      tags:
+        - players_exp
+      summary: find player info by ID
+      description: By passing in the appropriate options, you can search for a player info by the ID
+      parameters:
+        - name: playerId
+          in: path
+          description: get player info by id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: search result mathcing criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlayerFindById'  
+        '500':
+          description: internal server error
+components:
+  schemas:
+    Create:
+      type: object
+      required:
+        - message
+        - result
+      properties:
+        message: 
+          type: string
+          example: SUCCESS
+        result: 
+          type: array
+          items: 
+            type: object
+            properties: 
+              id:
+                type: integer
+                example: 1
+              username: 
+                type: string
+                example: ilfan
+              email: 
+                type: string
+                example: ilfan@gmail.com
+              password: 
+                type: string
+                example: passwordilfan
+              experience:
+                type: integer
+                example: 232332
+              lvl: 
+                type: integer
+                example: 32
+              createdAt: 
+                type: string
+                format: date
+                example: 20-10-2022:35:22:1222
+              updatedAt: 
+                type: string
+                format: date
+                example: 20-10-2022:35:22:1222
+    PlayerFindAll:
+      type: object
+      required:
+        - message 
+        - result
+      properties:
+        message: 
+          type: string
+          example: SUCCESS
+        result: 
+          type: array
+          items: 
+            type: object
+            properties: 
+              id:
+                type: integer
+                example: 1
+              username: 
+                type: string
+                example: ilfan
+              email: 
+                type: string
+                example: ilfan@gmail.com
+              password: 
+                type: string
+                example: passwordilfan
+              experience:
+                type: integer
+                example: 232332
+              lvl: 
+                type: integer
+                example: 32
+              createdAt: 
+                type: string
+                format: date
+                example: 20-10-2022:35:22:1222
+              updatedAt: 
+                type: string
+                format: date
+                example: 20-10-2022:35:22:1222
+    PlayerFindById:
+      type: object
+      required:
+        - message
+        - result
+      properties:
+        message: 
+          type: string
+          example: SUCCESS
+        result: 
+          type: array
+          items: 
+            type: object
+            properties: 
+              id:
+                type: integer
+                example: 1
+              username: 
+                type: string
+                example: ilfan
+              email: 
+                type: string
+                example: ilfan@gmail.com
+              password: 
+                type: string
+                example: passwordilfan
+              experience:
+                type: integer
+                example: 232332
+              lvl: 
+                type: integer
+                example: 32
+              createdAt: 
+                type: string
+                format: date
+                example: 20-10-2022:35:22:1222
+              updatedAt: 
+                type: string
+                format: date
+                example: 20-10-2022:35:22:1222
+    Update:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          example: ACME Corporation
+        homePage:
+          type: string
+          format: url
+          example: 'https://www.acme-corp.com'
+        phone:
+          type: string
+          example: 408-867-5309
+    Delete: 
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          example: ACME Corporation
+        homePage:
+          type: string
+          format: url
+          example: 'https://www.acme-corp.com'
+        phone:
+          type: string
+          example: 408-867-5309
